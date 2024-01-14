@@ -1,0 +1,86 @@
+<mat-card class="mat-card">
+
+
+    <mat-card-title>
+        <div fxLayoutAlign="space-between center" fxFlex="row">
+            <span>
+                <mat-icon>bolt</mat-icon>
+                {{dialogData.title}}
+            </span>
+            <button class="grow" mat-icon-button (click)="dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+
+    </mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="addBillingGroup" (ngSubmit)="addBilling()" fxflex="100">
+
+            <div fxLayout="row wrap" fxLayoutGap="10px">
+
+
+                <mat-form-field fxFlex="32" fxFlex.lt-sm="100" appearance="outline">
+                    <mat-label>{{'subming Date' |titlecase}}</mat-label>
+                    <input matInput [matDatepicker]="picker" [max]="maxDate" formControlName="submissionDate"
+                        placeholder="Select subming Date" required autocomplete="off">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error>
+                        <span
+                            *ngIf="addBillingGroup.controls['submissionDate'].touched && addBillingGroup.controls['submissionDate'].hasError('required')">
+                            submission Date is Required
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="32" fxFlex.lt-sm="100" appearance="outline">
+                    <mat-label>{{'Electricity Meter Reading - day' |titlecase}}</mat-label>
+                    <input matInput type="number" formControlName="electricityReadingDay"
+                        placeholder="Electricity Meter Reading - day" required autocomplete="off">
+
+                    <mat-error>
+                        <span
+                            *ngIf="addBillingGroup.controls['electricityReadingDay'].touched && addBillingGroup.controls['electricityReadingDay'].hasError('required')">
+                            Electricity Meter Reading - day is Required
+                        </span>
+
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Electricity Meter reading - night -->
+                <mat-form-field fxFlex="32" fxFlex.lt-sm="100" appearance="outline">
+                    <mat-label>{{'Electricity Meter reading - night' |titlecase}}</mat-label>
+                    <input matInput type="number" formControlName="electricityReadingNight"
+                        placeholder="Electricity Meter reading - night" required autocomplete="off">
+
+                    <mat-error>
+                        <span
+                            *ngIf="addBillingGroup.controls['electricityReadingNight'].touched && addBillingGroup.controls['electricityReadingNight'].hasError('required')">
+                            Electricity Meter reading - night is Required
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Gas Reading -->
+                <mat-form-field fxFlex="32" fxFlex.lt-sm="100" appearance="outline">
+                    <mat-label>{{'Gas Reading' |titlecase}}</mat-label>
+                    <input matInput type="number" formControlName="gasReading" placeholder="Enter Gas Reading"
+                        required autocomplete="off">
+
+                    <mat-error>
+                        <span
+                            *ngIf="addBillingGroup.controls['gasReading'].touched && addBillingGroup.controls['gasReading'].hasError('required')">
+                            Gas meter Reading is Required
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+
+            <div fxLayoutAlign="end center" fxLayout="row" fxLayoutGap="10px">
+                <button mat-raised-button class="grow" type="submit" [disabled]="addBillingGroup.invalid">Add</button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

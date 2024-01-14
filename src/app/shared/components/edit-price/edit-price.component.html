@@ -1,0 +1,81 @@
+<mat-card class="mat-card">
+
+
+    <mat-card-title>
+        <div fxLayoutAlign="space-between center" fxFlex="row">
+            <span>
+                <mat-icon>bolt</mat-icon>
+                {{dialogData.title}}
+            </span>
+            <button class="grow" mat-icon-button (click)="dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+
+    </mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="editBillingGroup" (ngSubmit)="updatePrice()" fxflex="100">
+
+            <div fxLayout="row wrap" fxLayoutGap="10px">               
+
+                <mat-form-field fxFlex="32" fxFlex.lt-sm="100" appearance="outline">
+                    <mat-label>{{'Electricity Day / kWh' |titlecase}}</mat-label>
+                    <input matInput type="number" formControlName="electricityDayPerkWh"
+                        placeholder="Electricity Day / kWh - day" required autocomplete="off">
+
+                    <mat-error>
+                        <span
+                            *ngIf="editBillingGroup.controls['electricityDayPerkWh'].touched && editBillingGroup.controls['electricityDayPerkWh'].hasError('required')">
+                            Electricity Day / kWh is Required
+                        </span>
+
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="32" fxFlex.lt-sm="100" appearance="outline">
+                    <mat-label>{{'Electricity Night / kWh' |titlecase}}</mat-label>
+                    <input matInput type="number" formControlName="electricityNightPerkWh"
+                        placeholder="Electricity Night / kWh" required autocomplete="off">
+
+                    <mat-error>
+                        <span
+                            *ngIf="editBillingGroup.controls['electricityNightPerkWh'].touched && editBillingGroup.controls['electricityNightPerkWh'].hasError('required')">
+                            Electricity Night / kWh is Required
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="32" fxFlex.lt-sm="100" appearance="outline">
+                    <mat-label>{{'Gas / kWh' |titlecase}}</mat-label>
+                    <input matInput type="number" formControlName="gasPerkWh" placeholder="Enter Gas / kWh"
+                        required autocomplete="off">
+
+                    <mat-error>
+                        <span
+                            *ngIf="editBillingGroup.controls['gasPerkWh'].touched && editBillingGroup.controls['gasPerkWh'].hasError('required')">
+                            Gas / kWh is Required
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="32" fxFlex.lt-sm="100" appearance="outline">
+                    <mat-label>{{'Standing Charge / Day' |titlecase}}</mat-label>
+                    <input matInput type="number" formControlName="standingChargePerDay"
+                        placeholder="Standing Charge / Day" required autocomplete="off">
+
+                    <mat-error>
+                        <span
+                            *ngIf="editBillingGroup.controls['standingChargePerDay'].touched && editBillingGroup.controls['standingChargePerDay'].hasError('required')">
+                            Standing Charge / Day is Required
+                        </span>
+
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+
+            <div fxLayoutAlign="end center" fxLayout="row" fxLayoutGap="10px">
+                <button mat-raised-button class="grow" type="submit">Update</button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

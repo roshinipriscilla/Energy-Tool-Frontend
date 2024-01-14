@@ -1,0 +1,160 @@
+<mat-toolbar fxLayoutAlign="space-between center">
+    <div></div>
+    <div fxLayout="row">
+        <div style="gap: 1px;" fxLayout="row" fxLayoutAlign="end center">
+            <mat-icon style="cursor: pointer;" (click)="logout()" matTooltip="Log Out">logout</mat-icon>
+        </div>
+    </div>
+
+
+</mat-toolbar>
+
+<mat-card class="mat-card">
+    <mat-card-title>
+        <div fxLayoutAlign="space-between center" fxFlex="row"><span>
+                Current price per kWh
+            </span>
+            <div fxLayout.lt-sm="column">
+                <button class="grow" mat-raised-button (click)="EditBillingData()">Edit Price</button>
+                &nbsp;
+            </div>
+        </div>
+
+    </mat-card-title>
+    <mat-card-content>
+        <ng-container>
+            <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="priceDataSource" matSort>
+
+                    <ng-container matColumnDef="E-day/kWh">
+                        <th mat-header-cell *matHeaderCellDef> Electricity (Day) / kWh </th>
+                        <td mat-cell *matCellDef="let row"> {{row.electricityDayPerkWh}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="E-night/kWh">
+                        <th mat-header-cell *matHeaderCellDef> Electricity (Night) / kWh </th>
+                        <td mat-cell *matCellDef="let row"> {{row.electricityNightkWh}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="G/kWh">
+                        <th mat-header-cell *matHeaderCellDef> Gas / kWh </th>
+                        <td mat-cell *matCellDef="let row"> {{row.gasPerkWh}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="standingCharge">
+                        <th mat-header-cell *matHeaderCellDef> Standing Charge / Day </th>
+                        <td mat-cell *matCellDef="let row"> {{row.standingChargePerDay}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="priceColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: priceColumns;"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="8">No data available</td>
+                    </tr>
+                </table>
+            </div>
+        </ng-container>
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="mat-card">
+    <mat-card-title>
+        <div fxLayoutAlign="space-between center" fxFlex="row"><span>
+                Customer Details
+            </span>
+        </div>
+    </mat-card-title>
+    <mat-card-content>
+
+        <ng-container>
+            <mat-form-field>
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Not Paid" #input>
+            </mat-form-field>
+
+            <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" matSort>
+
+                    <!-- S.No Column -->
+                    <ng-container matColumnDef="S.No">
+                        <th mat-header-cell *matHeaderCellDef> S.No </th>
+                        <td mat-cell *matCellDef="let row ;let i = index">{{i+1}} </td>
+                    </ng-container>
+
+                    <!-- Email Column -->
+                    <ng-container matColumnDef="Email">
+                        <th mat-header-cell *matHeaderCellDef> Email </th>
+                        <td mat-cell *matCellDef="let row"> {{row.userId.userId}}</td>
+                    </ng-container>
+                    <!-- Address Column -->
+                    <ng-container matColumnDef="Address">
+                        <th mat-header-cell *matHeaderCellDef> Address </th>
+                        <td mat-cell *matCellDef="let row"> {{row.userId.address}}</td>
+                    </ng-container>
+                    <!-- date Column -->
+                    <ng-container matColumnDef="Date">
+                        <th mat-header-cell *matHeaderCellDef> date </th>
+                        <td mat-cell *matCellDef="let row"> {{formatDate(row.submissionDate)}}</td>
+                    </ng-container>
+
+                    <!-- E-bill-day Column -->
+                    <ng-container matColumnDef="E-bill-day">
+                        <th mat-header-cell *matHeaderCellDef> E-bill-day(kWh) </th>
+                        <td mat-cell *matCellDef="let row"> {{row.electricityReadingDay}} </td>
+                    </ng-container>
+
+                    <!-- E-bill-night Column -->
+                    <ng-container matColumnDef="E-bill-night">
+                        <th mat-header-cell *matHeaderCellDef> E-bill-night(kWh) </th>
+                        <td mat-cell *matCellDef="let row"> {{row.electricityReadingNight}} </td>
+                    </ng-container>
+                    <!-- G-bill Column -->
+                    <ng-container matColumnDef="G-bill">
+                        <th mat-header-cell *matHeaderCellDef> Gas-bill(kWh) </th>
+                        <td mat-cell *matCellDef="let row"> {{row.gasReading}} </td>
+                    </ng-container>
+                    <!-- Total Amount Column -->
+                    <ng-container matColumnDef="Total Amount">
+                        <th mat-header-cell *matHeaderCellDef> Total Amount(£) </th>
+                        <td mat-cell *matCellDef="let row"> {{row.amountToBePaid}} </td>
+                    </ng-container>
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="Status">
+                        <th mat-header-cell *matHeaderCellDef> Status </th>
+                        <td mat-cell *matCellDef="let row">
+                            <span
+                                [ngStyle]="{'color': row.paymentStatus == 'UNPAID' ? 'rgb(255, 67, 67)':'#36C95F'}">{{row.paymentStatus}}</span>
+                        </td>
+                    </ng-container>
+                    <!-- E Usage /day Column -->
+                    <ng-container matColumnDef="E Usage /day">
+                        <th mat-header-cell *matHeaderCellDef> Avg E- Usage /day(kWh) </th>
+                        <td mat-cell *matCellDef="let row">
+                            <span>{{row.avgElectricityConsumption}}</span>
+                        </td>
+                    </ng-container>
+                    <!-- G Usage / Day Column -->
+                    <ng-container matColumnDef="G Usage / Day">
+                        <th mat-header-cell *matHeaderCellDef> Avg Gas Usage/Day(kWh) </th>
+                        <td mat-cell *matCellDef="let row">
+                            <span>{{row.avgGasConsumption}}</span>
+                        </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="8">No data available</td>
+                    </tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+            </div>
+
+        </ng-container>
+
+    </mat-card-content>
+</mat-card>

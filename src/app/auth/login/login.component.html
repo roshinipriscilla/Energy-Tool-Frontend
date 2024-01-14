@@ -1,0 +1,53 @@
+<div class="background">
+    <form class="center-content" [formGroup]="userForm" style="width:45%">
+        <mat-card class="mat-card">
+            <mat-card-title>Login</mat-card-title>
+            <mat-card-content>
+
+                <!--  email -->
+                <div fxLayout="column" fxLayoutAlign="space-around stretch" flexgap="12px">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" autocomplete="off">
+                        <mat-icon matSuffix>email</mat-icon>
+                        <mat-error>
+                            <span
+                                *ngIf="userForm.controls['email'].touched && userForm.controls['email'].hasError('pattern')">
+                                Invalid email ID</span>
+                            <span
+                                *ngIf="userForm.controls['email'].hasError('required') && userForm.controls['email'].touched">
+                                Please Enter email</span>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <!-- password -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Enter password</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-error>
+                            <span
+                                *ngIf="userForm.controls['password'].hasError('required') && userForm.controls['password'].touched">
+                                Please Enter password
+                            </span>
+                            <span
+                                *ngIf=" userForm.controls['password'].touched && userForm.controls['password'].hasError('pattern')">
+                                password length should be minimum 8
+                            </span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="end center" style="margin: 10px;">
+                    <a routerLink="/auth/register"> Click To Register?</a>
+                </div>
+                <div>
+                    <button mat-raised-button (click)="onSubmit()">Login</button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </form>
+
+</div>

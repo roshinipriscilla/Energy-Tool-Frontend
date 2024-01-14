@@ -1,0 +1,48 @@
+.mat-card {
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.add-bill {
+    position: fixed;
+    right: 5px;
+    margin: 5px;
+    z-index: 2;
+}
+
+
+mat-toolbar {
+    height: 50px;
+    padding: 10px;
+    background-color: white;
+}
+
+img {
+    width: 6.6ch;
+    height: 5ch;
+    padding: 0px 0px 0px 15px;
+}
+
+.clock {
+    font-size: 12px;
+    height: 20px;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+td {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+th {
+    color: #36C95F;
+    font-size: 13px;
+}
